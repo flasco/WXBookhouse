@@ -1,4 +1,4 @@
 export const serverIp = [
-  'https://flasco.leanapp.cn',
+  'https://testdb.leanapp.cn',
   'https://flascospare.leanapp.cn',
 ]

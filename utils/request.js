@@ -6,6 +6,9 @@ export const httpGet = (url, callback) => {
         resolve(res.data);
       },
       fail: function (err) {
+        wx.showToast({
+          title: '请求失败',
+        });
         reject(err);
       }
     });
@@ -25,6 +28,9 @@ export const httpPost = (url, payload, callback) => {
         resolve(res.data);
       },
       fail: function (err) {
+        wx.showToast({
+          title: '请求失败',
+        });
         reject(err);
       }
     })

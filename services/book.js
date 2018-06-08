@@ -39,7 +39,7 @@ export function list(url) {
       let n = [], i = 0;
       while (i < data.length) {
         n.push({
-          key: data[i].url,
+          url: data[i].url,
           title: (data[i].title.length > 25 ? data[i].title.substr(0, 18) + '...' : data[i].title)
         });
         i++;

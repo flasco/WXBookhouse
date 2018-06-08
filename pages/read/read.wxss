@@ -1,0 +1,55 @@
+/* pages/read.wxss */
+
+page {
+  background-color: #acc7a7;
+}
+
+.SunnyMode_title {
+  color: #576457;
+  font-size: 38rpx;
+  margin: 0.5em 0;
+  display: block;
+}
+
+.SunnyMode_text {
+  color: #0d2a0f;
+  display: block;
+  word-wrap: break-word;
+  word-break: break-all;
+  margin: 0.4em 0;
+  overflow: hidden;
+  line-height: 1.8;
+  font-size: 42rpx;
+  text-align: justify;
+}
+
+.tip-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 99;
+  display: flex;
+  flex-direction: row;
+}
+
+.tip-edge {
+  flex: 1;
+  display: flex;
+  background: rgba(60, 60, 60, 0.4);
+  align-items: center;
+  justify-content: center;
+}
+
+.tip-center {
+  flex: 2;
+  display: flex;
+  background: rgba(0, 0, 0, 0.4);
+  align-items: center;
+  justify-content: center;
+}
+
+.tip-text{
+  color:rgba(255,255,255,0.8);
+}

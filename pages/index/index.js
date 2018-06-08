@@ -19,22 +19,62 @@ Page({
         '1': 'http://www.xs.la/0_64/',
         '2': 'http://www.kanshuzhong.com/book/36456/',
       }
-    }]
+    },]
+  },
+  onLoad: function (options){
+    let x = wx.getStorageSync('bookLst');
+    if(x !== ''){
+      this.setData({
+        listx: JSON.parse(x)
+      })
+    }
   },
   // 下拉刷新  
   onPullDownRefresh: function () {
-    // content('http://www.xs.la/34_34495/2266828.html').then(res => {
-    //   console.log(res)
-    // });
-    // latestLst([{
-    //   title:'上架感言！',
-    //   url: 'http://www.xs.la/0_64/'
-    // }]).then(res=>{
-    //   console.log(res)
-    // })
-
-    list('http://www.xs.la/0_64/').then(res=>{
-      console.log(res)
+    // wx.clearStorageSync(); // 清除缓存信息
+    let task = this.data.listx.map((item) => {
+      return {
+        title: item.latestChapter,
+        url: item.source[item.plantformId],
+      }
+    });
+    latestLst(task).then(res => {
+      let newList = [...this.data.listx];
+      let updateNum = 0;
+      let needUpdate = res.some((item, index) => {
+        if (item !== '-1') {
+          let curListItem = newList[index];
+          curListItem.latestChapter = item.title;
+          curListItem.isUpdate = true;
+          wx.setStorage({
+            key: `${curListItem.bookName}-${curListItem.author}-${curListItem.plantformId}-list`,
+            data: item.list
+          }); // 缓存列表文件
+          return true;
+        } else return false;
+      });
+      needUpdate && this.setData({
+        listx: newList
+      });
+      wx.showToast({
+        title: '刷新完成',
+      });
+      wx.stopPullDownRefresh(); //停止下拉刷新
+    })
+  },
+  clickJmp: function(e){
+    let curItem = this.data.listx[e.currentTarget.dataset.index];
+    wx.navigateTo({
+      url: `../read/read?objstr=${JSON.stringify(curItem)}`,
+    })
+  },
+  pres:function(e){
+    console.log('longPress');
+  },
+  onHide: function () {
+    wx.setStorage({
+      key: 'bookLst',
+      data: JSON.stringify(this.data.listx),
     })
   },
 })

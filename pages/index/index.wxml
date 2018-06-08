@@ -1,9 +1,12 @@
 <view>
-  <view wx:for='{{listx}}' wx:key='this*' style='display:flex;flex-direction:row;padding: 0 20rpx;'>
-    <image src='{{item.img}}' style='width:78rpx;height:102rpx;' />
-    <view style='display:flex;flex-direction:column;margin-left:20rpx; justify-content:space-around;'>
-      <text>{{item.bookName}}</text>
-      <text style='font-size:30rpx;color:#999999'>{{item.latestChapter}}</text>
+  <block wx:for='{{listx}}' wx:key='this*'>
+    <view class='item-container'  data-index='{{index}}' bind:tap='clickJmp' bindlongpress='pres'>
+      <image src='{{item.img}}' class='item-img' />
+      <view class='item-right'>
+        <text class='item-title'>{{item.bookName}}</text>
+        <text class='item-subtitle'>{{item.latestChapter}}</text>
+      </view>
     </view>
-  </view>
+    <view wx:if='{{index !== listx.length - 1}}' class='splitter' />
+  </block>
 </view>

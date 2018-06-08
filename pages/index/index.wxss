@@ -1,0 +1,36 @@
+.item-container {
+  display: flex;
+  flex-direction: row;
+  padding: 12rpx 20rpx;
+  background-color: #f2f2f2;
+}
+
+.splitter {
+  border-bottom: 1px solid #d5d5d5;
+}
+
+.item-img {
+  width: 78rpx;
+  height: 102rpx;
+}
+
+.item-right {
+  display: flex;
+  flex-direction: column;
+  margin-left: 20rpx;
+  justify-content: space-around;
+}
+
+.item-subtitle {
+  font-size: 24rpx;
+  color: #999;
+}
+.item-title{
+  font-weight: 400;
+  color: #000;
+  font-size: 32rpx;
+}
+
+page {
+  background-color: #e6e6e6;
+}
