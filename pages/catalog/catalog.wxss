@@ -1,1 +1,26 @@
 /* pages/catalog/catalog.wxss */
+
+page {
+  background-color: #d9d9d9;
+}
+
+.title {
+  
+  display: block;
+  height: 88rpx;
+  line-height: 88rpx;
+  font-size: 34rpx;
+  padding: 0 0.5em;
+}
+
+.select-title{
+  color: #db0019;
+}
+
+.unselect-title{
+  color: #565656;
+}
+
+.splitter {
+  border-bottom: #969696 solid 1px;
+}

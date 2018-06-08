@@ -1,0 +1,10 @@
+<!--pages/search/search.wxml-->
+<view >
+
+  <view class='bar-container'>
+    <icon class='iconfont icon-search' />
+    <input placeholder='请输入书籍名称' class='input' bindconfirm='search'/>
+  </view>
+
+
+</view>

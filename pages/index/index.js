@@ -63,9 +63,8 @@ Page({
     })
   },
   clickJmp: function(e){
-    let curItem = this.data.listx[e.currentTarget.dataset.index];
     wx.navigateTo({
-      url: `../read/read?objstr=${JSON.stringify(curItem)}`,
+      url: `../read/read?index=${e.currentTarget.dataset.index}`,
     })
   },
   pres:function(e){

@@ -1,14 +1,36 @@
 {
   "pages": [
+    "pages/search/search",
     "pages/index/index",
     "pages/logs/logs",
     "pages/read/read",
-    "pages/catalog/catalog"
+    "pages/catalog/catalog",
+    "pages/account/account"
   ],
   "window": {
     "backgroundTextStyle": "dark",
     "navigationBarBackgroundColor": "#000",
     "navigationBarTitleText": "流苏书屋",
     "navigationBarTextStyle": "#fff"
+  },
+  "tabBar": {
+    "color": "#ccc",
+    "selectedColor": "#35495e",
+    "borderStyle": "white",
+    "backgroundColor": "#f9f9f9",
+    "list": [
+      {
+        "pagePath": "pages/index/index",
+        "text": "书架",
+        "iconPath": "assets/book.png",
+        "selectedIconPath": "assets/book-cover.png"
+      },
+      {
+        "pagePath": "pages/account/account",
+        "text": "账户",
+        "iconPath": "assets/account.png",
+        "selectedIconPath": "assets/account-cover.png"
+      }
+    ]
   }
 }

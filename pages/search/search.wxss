@@ -1,0 +1,22 @@
+/* pages/search/search.wxss */
+@import '../../assets/iconfont.wxss';
+
+page {
+  background-color: #e6e6e6;
+}
+
+.bar-container {
+  flex-direction: row;
+  display: flex;
+  align-items: center;
+}
+
+.input {
+  padding: 20rpx 25rpx;
+  width: 100%;
+}
+
+.iconfont {
+  color: #8b8b90;
+  font-size: 40rpx;
+}

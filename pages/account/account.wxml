@@ -1,0 +1,44 @@
+<!--pages/account/account.wxml-->
+<view>
+  <view class='user'>
+    <image class="user-avatar" src="{{userInfo.avatarUrl}}"></image>
+    <view class='user-right'>
+      <text class="user-nickname">{{userInfo.nickName}}</text>
+      <text class='user-subtitle'>Lv.{{level}} {{curExp}}/{{reqExp}}</text>
+    </view>
+  </view>
+  <view style='margin-top:70rpx;'>
+    <view class='click-item' bindtap='jmp2Search'>
+      <icon class='iconfont icon-search' />
+      <text class='item-label'>自助搜书</text>
+    </view>
+    <view class='click-item'>
+      <icon class='iconfont icon-paixingbang' />
+      <text class='item-label'>起点排行</text>
+    </view>
+
+    <view class='click-item'>
+      <icon class='iconfont icon-qiandao' />
+      <text class='item-label'>每日签到</text>
+    </view>
+
+  </view>
+  <view style='margin-top:40rpx;'>
+    <view class='click-item'>
+      <icon class='iconfont icon-dengpaotishi' />
+      <text class='item-label'>使用帮助</text>
+    </view>
+    <view class='click-item'>
+      <icon class='iconfont icon-yijianfankui' />
+      <text class='item-label'>反馈意见</text>
+    </view>
+    <view class='click-item' style='justify-content:space-between;'>
+      <view>
+        <icon class='iconfont icon-guanyu' />
+        <text class='item-label'>当前版本</text>
+      </view>
+      <text style='color: #aaa;font-size: 30rpx;'>Version 0.0.4-alpha</text>
+    </view>
+  </view>
+  <text style='margin-top:50rpx;text-align:center;color:#aaa;float:right;width:100%;font-size:30rpx;'>仅供个人使用，请勿四处传播。\nBy: flasco</text>
+</view>

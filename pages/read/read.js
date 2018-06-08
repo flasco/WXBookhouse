@@ -11,7 +11,10 @@ Page({
     lines: [],
     title: '',
     isFirst: false,
-    scrollTop: 0
+    scrollTop: 0,
+    menuHide: true,
+    lstLength: 100,
+    currentNum: 0,
   },
   flagLst: [],
   bookRecord: '',
@@ -24,20 +27,19 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    wx.getSystemInfo({
-      success: (res) => {
-        this.screenWidth = res.windowWidth;
-        this.Quex = this.screenWidth / 4;
-        this.Quey = 3 * this.Quex;
-      }
-    });
+    let app = getApp();
+    this.screenWidth = app.screenWidth;
+    this.Quex = this.screenWidth / 4;
+    this.Quey = 3 * this.Quex;
     let isFirst = wx.getStorageSync('isFirst');
     if (typeof isFirst !== 'boolean') {
       this.setData({
         isFirst: true
       })
     }
-    let currentBook = JSON.parse(options.objstr);
+    let pages = getCurrentPages();
+    let prevPage = pages[pages.length - 2];
+    let currentBook = prevPage.data.listx[options.index];
     wx.setNavigationBarTitle({
       title: currentBook.bookName
     });
@@ -70,18 +72,27 @@ Page({
         } else {
           console.log(val)
           this.chapterLst = val;
+          this.setData({
+            lstLength: this.chapterLst.length,
+          })
           this.getContent(this.bookRecord.recordChapterNum);
         }
       });
     } else {
+      this.setData({
+        lstLength: this.chapterLst.length,
+      })
       this.getContent(this.bookRecord.recordChapterNum, this.bookRecord.top);
     }
   },
-  
+
   getContent: function (index, top = 0) {
     if (this.loading) return;
     index = (index <= this.chapterLst.length - 1 && index > -1) ? index : 0; //修复index的越界问题
     this.bookRecord.recordChapterNum = index;
+    this.setData({
+      currentNum: index,
+    })
     let nurl = this.chapterLst[index].url;
     if (this.chapterMap[nurl] === undefined || typeof this.chapterMap[nurl] === 'string') {
       wx.showLoading({
@@ -116,25 +127,36 @@ Page({
       });
     }
   },
-
+  slider2change: function (e) {
+    this.getContent(e.detail.value);
+  },
+  prvChapter: function () {
+    if (this.bookRecord.recordChapterNum === 0) {
+      wx.showToast({
+        title: '已经是第一章',
+      });
+    } else this.getContent(this.bookRecord.recordChapterNum - 1);
+  },
+  nxtChapter: function () {
+    if (this.bookRecord.recordChapterNum === this.chapterLst.length - 1) {
+      wx.showToast({
+        title: '已经是最后一章',
+      })
+    } else this.getContent(this.bookRecord.recordChapterNum + 1);
+  },
   clickEvent: function (e) {
     let clickX = e.detail.x;
     if (clickX > this.Quex && clickX < this.Quey) {
       // console.log('中心处');
+      this.setData({
+        menuHide: !this.data.menuHide
+      })
     } else if (clickX < this.Quex) {
       // console.log('左侧上一章');
-      if (this.bookRecord.recordChapterNum === 0) {
-        wx.showToast({
-          title: '已经是第一章',
-        })
-      } else this.getContent(this.bookRecord.recordChapterNum - 1);
+      this.prvChapter();
     } else {
       // console.log('右侧下一章');
-      if (this.bookRecord.recordChapterNum === this.chapterLst.length - 1) {
-        wx.showToast({
-          title: '已经是最后一章',
-        })
-      } else this.getContent(this.bookRecord.recordChapterNum + 1);
+      this.nxtChapter();
     }
   },
 
@@ -150,6 +172,32 @@ Page({
   scroll: function (e, res) {
     // 容器滚动时将此时的滚动距离赋值给 this.data.scrollTop
     this.top = e.detail.scrollTop;
+  },
+  tchStart: function (e) {
+    this.startX = e.changedTouches[0].pageX;
+    this.startY = e.changedTouches[0].pageY;
+  },
+  tchEnd: function (e) {
+    let endX = e.changedTouches[0].pageX;
+    let endY = e.changedTouches[0].pageY;
+    let differX = endX - this.startX;
+    let differY = endY - this.startY;
+    if (Math.abs(differY) > 30) return;
+    if (Math.abs(differX) < 60) return;
+    if (differX > 60) {
+      this.prvChapter();
+    }
+    else if (differX < -60) {
+      this.nxtChapter();
+    }
+  },
+  jmp2Catalog: function (e) {
+    wx.navigateTo({
+      url: `../catalog/catalog`,
+    });
+    !this.data.menuHide && this.setData({
+      menuHide: true
+    })
   },
   /**
    * 生命周期函数--监听页面初次渲染完成
