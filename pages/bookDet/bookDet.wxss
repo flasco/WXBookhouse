@@ -1,0 +1,5 @@
+/* pages/bookDet/bookDet.wxss */
+
+page {
+  background-color: #d9d9d9;
+}

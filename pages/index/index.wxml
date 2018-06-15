@@ -3,7 +3,10 @@
     <view class='item-container'  data-index='{{index}}' bind:tap='clickJmp' bindlongpress='pres'>
       <image src='{{item.img}}' class='item-img' />
       <view class='item-right'>
+        <view class='title-container'>
         <text class='item-title'>{{item.bookName}}</text>
+        <text wx:if='{{item.isUpdate}}' class='isUpdate-item'>更新</text>
+        </view>
         <text class='item-subtitle'>{{item.latestChapter}}</text>
       </view>
     </view>

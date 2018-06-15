@@ -10,11 +10,11 @@
     <text class='tip-text'>下一章</text>
   </view>
 </view>
-<scroll-view scroll-y="true" scroll-top="{{scrollTop}}" bindscroll="scroll" style="position: absolute; left: 0; top:0; bottom: 0; right: 0;">
-  <view style='padding:0 30rpx 100rpx;' bindtap='clickEvent' bindtouchstart='tchStart' bindtouchend='tchEnd'>
-    <text class='SunnyMode_title'>{{title}}</text>
+<scroll-view scroll-y="true" scroll-top="{{scrollTop}}" bindscroll="scroll" class="scroll-view  {{night? 'night-container':'sunny-container'}}">
+  <view style='padding:0 30rpx 100rpx;min-height:100%;' bindtap='clickEvent' bindtouchstart='tchStart' bindtouchend='tchEnd'>
+    <text class="titleStyle {{night? 'night-title':'sunny-title'}}">{{title}}</text>
     <block wx:for="{{lines}}" wx:key='this*'>
-      <text class='SunnyMode_text'>{{item}}</text>
+      <text class="textStyle {{night? 'night-text':'sunny-text'}}">{{item}}</text>
     </block>
   </view>
 </scroll-view>
@@ -29,9 +29,13 @@
       <icon class='icon-list iconfont' />
       <text class='menu-item-text'>目录</text>
     </view>
-    <view class='menu-item'>
+    <view class='menu-item' bindtap='switchNight'>
       <icon class='icon-nc-test-outline-px_moon iconfont' />
       <text class='menu-item-text'>夜间</text>
+    </view>
+     <view class='menu-item' bindtap='jmp2origin'>
+      <icon class='icon-origin iconfont' />
+      <text class='menu-item-text'>换源</text>
     </view>
     <view class='menu-item'>
       <icon class='icon-viewgallery iconfont' />

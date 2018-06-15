@@ -1,0 +1,6 @@
+<!--pages/orgin/orgin.wxml-->
+<scroll-view scroll-y="true" scroll-top="{{scrollTop}}" style="position: absolute; left: 0; top:0; bottom: 0; right: 0;">
+  <block wx:for="{{list}}"  wx:key='this*'>
+    <text class="title {{index !== list.length - 1? 'splitter':''}} {{item.isSelect ? 'select-title': 'unselect-title'}}" data-index='{{index}}' bind:tap='clickJmp'>{{item.site}} - {{item.latestChapter}}</text>
+  </block>
+</scroll-view>

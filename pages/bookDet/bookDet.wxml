@@ -1,0 +1,21 @@
+<!--pages/bookDet/bookDet.wxml-->
+<view style='padding: 20rpx 30rpx'>
+  <view style='display:flex;flex-direction:row;'>
+    <image src='{{currentItem.img}}' style='width:120rpx;height:160rpx;' />
+    <view style='display:flex;flex-direction:column;justify-content:space-around;margin-left:18rpx;'>
+      <text style='font-size:34rpx;'>{{currentItem.bookName}}</text>
+      <text style='font-size:28rpx;color:#808080;'>{{currentItem.author}}</text>
+      <text style='font-size:28rpx;color:#808080;'>{{currentItem.plantformId}}</text>
+    </view>
+  </view>
+
+  <view style='flex-direction:row;display:flex;margin: 30rpx 0;'>
+    <button plain='true' type='warn' style='width:280rpx;' bindtap='addBook' disabled='{{addLoading || exist}}' loading='{{addLoading}}'>{{exist?'已存在':'追书'}}</button>
+    <button type='warn' style='width:280rpx;' bindtap='readNow'>立即阅读</button>
+  </view>
+  <view style='border-bottom:1px solid #999;border-top:1px solid #999;padding:20rpx;'>
+    <text style='font-size:30rpx;'>{{currentItem.desc}}</text>
+  </view>
+  <text style='display:block;text-align:center;font-size:30rpx;margin-top:40rpx;'>未完待续...</text>
+
+</view>

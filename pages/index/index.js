@@ -2,7 +2,8 @@
 //获取应用实例
 const app = getApp();
 import { content, latestLst, list } from '../../services/book.js';
-
+import { refreshChapter } from '../../utils/refreshBook.js';
+import { insertionSort } from '../../utils/util.js';
 Page({
   data: {
     listx: [{
@@ -19,56 +20,79 @@ Page({
         '1': 'http://www.xs.la/0_64/',
         '2': 'http://www.kanshuzhong.com/book/36456/',
       }
-    },]
+    },],
   },
-  onLoad: function (options){
+  loadRefresh: false,
+  onLoad: function (options) {
     let x = wx.getStorageSync('bookLst');
-    if(x !== ''){
-      this.setData({
-        listx: JSON.parse(x)
-      })
+    if (x !== '') {
+      this.app = getApp();
+      this.app.list = JSON.parse(x);
     }
   },
   // 下拉刷新  
   onPullDownRefresh: function () {
     // wx.clearStorageSync(); // 清除缓存信息
-    let task = this.data.listx.map((item) => {
-      return {
-        title: item.latestChapter,
-        url: item.source[item.plantformId],
+    refreshChapter(this.data.listx).then(val => {
+      if (val.needUpdate) {
+        this.app.list = val.list;
+        this.setData({
+          listx: val.list,
+        })
       }
-    });
-    latestLst(task).then(res => {
-      let newList = [...this.data.listx];
-      let updateNum = 0;
-      let needUpdate = res.some((item, index) => {
-        if (item !== '-1') {
-          let curListItem = newList[index];
-          curListItem.latestChapter = item.title;
-          curListItem.isUpdate = true;
-          wx.setStorage({
-            key: `${curListItem.bookName}-${curListItem.author}-${curListItem.plantformId}-list`,
-            data: item.list
-          }); // 缓存列表文件
-          return true;
-        } else return false;
-      });
-      needUpdate && this.setData({
-        listx: newList
-      });
       wx.showToast({
         title: '刷新完成',
       });
       wx.stopPullDownRefresh(); //停止下拉刷新
     })
   },
-  clickJmp: function(e){
+  clickJmp: function (e) {
     wx.navigateTo({
-      url: `../read/read?index=${e.currentTarget.dataset.index}`,
+      url: `../read/read?index=0`,
+    });
+    let index = e.currentTarget.dataset.index;
+    let list = [...this.data.listx];
+    list[index].isUpdate = false;
+    list[index].latestRead = new Date().getTime();
+    insertionSort(list);
+    this.app.list = list;// 在onshow 的时候会自动同步
+    this.currentItem = this.app.list[0];
+  },
+  onShow: function (e) {
+    if (this.app == null) return;
+    if (this.app.list == null) return;
+    if (this.app.list.length !== this.data.listx) {
+      this.setData({
+        listx: this.app.list
+      }, () => {
+        if (!this.loadRefresh) {
+          this.loadRefresh = true;
+          this.onPullDownRefresh();
+        }
+      })
+    }
+  },
+  pres: function (e) {
+    let select = e.currentTarget.dataset.index;
+    let selectBook = this.data.listx[select];
+    wx.showModal({
+      title: '警告',
+      content: `你真的要删除${selectBook.bookName}吗`,
+      success: (res) => {
+        if (res.confirm) {
+          this.data.listx.splice(select, 1);
+          this.app.list = this.data.listx;
+          this.setData({
+            listx: this.data.listx
+          });
+        }
+      }
     })
   },
-  pres:function(e){
-    console.log('longPress');
+  compareLst: function (list1, list2) {
+    return list1.length === list2.length && list1.every((item, index) => {
+      return item.bookName === list2[index].bookName;
+    })
   },
   onHide: function () {
     wx.setStorage({

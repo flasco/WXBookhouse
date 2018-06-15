@@ -1,35 +1,46 @@
-// pages/catalog/catalog.js
+// pages/rank/rank.js
+import { rnk } from '../../services/book.js';
 Page({
 
   /**
    * 页面的初始数据
    */
   data: {
-    list: [],
-    current: 0,
-    scrollTop: 0,
+    list: []
   },
+  page: 1,
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    let pages = getCurrentPages();
-    this.prevPage = pages[pages.length - 2];
-    
-    let current = this.prevPage.bookRecord.recordChapterNum;
-    this.setData({
-      list: this.prevPage.chapterLst,
-      current,
-      scrollTop: (current - 6) * 45
-    })
-  },
-  clickJmp: function (e) {
-    let select = e.currentTarget.dataset.index;
-    wx.navigateBack({
-      delta: 1
+    rnk(this.page).then(val => {
+      this.page++;
+      this.setData({
+        list: val
+      });
     });
-    this.prevPage.getContent(select);
+  },
+
+  jmp2Det:function(e){
+    let index = e.currentTarget.dataset.index;
+    let currentItem = this.data.list[index];
+    wx.navigateTo({
+      url: `../bookDet/bookDet?title=${currentItem.name}&author=${currentItem.author}`,
+    });
+  },
+
+  lower:function(){
+    wx.showLoading({
+      title: '加载中',
+    });
+    rnk(this.page).then(val => {
+      wx.hideLoading();
+      this.page++;
+      this.setData({
+        list: [...this.data.list, ...val],
+      });
+    });
   },
 
   /**

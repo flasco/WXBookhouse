@@ -1,11 +1,24 @@
 //app.js
+import { version, versionLog } from './config/index.js';
 App({
   onLaunch: function () {
     // 展示本地存储能力
-    var logs = wx.getStorageSync('logs') || []
-    logs.unshift(Date.now())
-    wx.setStorageSync('logs', logs)
-
+    this.night = wx.getStorageSync('night') || false;
+    this.version = wx.getStorageSync('version') || '';
+    if (this.version !== version) {
+      wx.showModal({
+        title: '版本更新日志',
+        content: versionLog,
+        success: (res) => {
+          if (res.confirm) {
+            wx.setStorage({
+              key: 'version',
+              data: version,
+            });
+          }
+        }
+      })
+    }
     wx.getSystemInfo({
       success: (res) => {
         this.screenWidth = res.screenWidth;
@@ -16,7 +29,7 @@ App({
     wx.login({
       success: res => {
         this.openId = res.code;
-        console.log(res.code)
+        // console.log(res.code)
         // 发送 res.code 到后台换取 openId, sessionKey, unionId
       }
     })
@@ -43,6 +56,5 @@ App({
   },
   globalData: {
     userInfo: null,
-    pixo: null,
   }
 })

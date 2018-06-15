@@ -1,19 +1,38 @@
 /* pages/read.wxss */
 @import '../../assets/iconfont.wxss';
 
-page {
+.sunny-container {
   background-color: #acc7a7;
 }
 
-.SunnyMode_title {
+.night-container {
+  background-color: #0c0c0c;
+}
+
+.scroll-view {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  right: 0;
+}
+
+.titleStyle {
   color: #576457;
   font-size: 38rpx;
   margin: 0.8em 0;
   display: block;
 }
 
-.SunnyMode_text {
-  color: #0d2a0f;
+.sunny-title {
+  color: #576457;
+}
+
+.night-title {
+  color: #474747;
+}
+
+.textStyle {
   display: block;
   word-wrap: break-word;
   word-break: break-all;
@@ -22,6 +41,14 @@ page {
   line-height: 1.8;
   font-size: 42rpx;
   text-align: justify;
+}
+
+.sunny-text {
+  color: #0d2a0f;
+}
+
+.night-text {
+  color: #5b5b5b;
 }
 
 .tip-container {
@@ -55,8 +82,10 @@ page {
   color: rgba(255, 255, 255, 0.8);
 }
 
-.menu-top-text{
-  color:#bbb;font-size:30rpx;padding:0 18rpx;
+.menu-top-text {
+  color: #bbb;
+  font-size: 30rpx;
+  padding: 0 18rpx;
 }
 
 .menu-item {
@@ -66,7 +95,7 @@ page {
   display: flex;
 }
 
-.iconfont{
+.iconfont {
   color: #bbb;
   font-size: 42rpx;
   font-family: 'iconfont';

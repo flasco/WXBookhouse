@@ -1,11 +1,14 @@
 {
   "pages": [
-    "pages/search/search",
     "pages/index/index",
-    "pages/logs/logs",
+    "pages/bookDet/bookDet",
+    "pages/search/search",
     "pages/read/read",
     "pages/catalog/catalog",
-    "pages/account/account"
+    "pages/account/account",
+    "pages/rank/rank",
+    "pages/origin/origin",
+    "pages/help/help"
   ],
   "window": {
     "backgroundTextStyle": "dark",

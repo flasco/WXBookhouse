@@ -1,4 +1,5 @@
 // pages/account/account.js
+import { version } from '../../config/index.js';
 Page({
 
   /**
@@ -7,8 +8,9 @@ Page({
   data: {
     userInfo: null,
     level: 8,
-    curExp:1040,
-    reqExp:5000,
+    curExp: 1040,
+    reqExp: 5000,
+    version,
   },
   /**
    * 生命周期函数--监听页面加载
@@ -19,9 +21,19 @@ Page({
       userInfo: app.globalData.userInfo
     })
   },
-  jmp2Search:function(e){
+  jmp2Search: function (e) {
     wx.navigateTo({
       url: '../search/search',
+    })
+  },
+  jmp2Rnk: function (e) {
+    wx.navigateTo({
+      url: '../rank/rank',
+    })
+  },
+  jmp2Help: function(){
+    wx.navigateTo({
+      url: '../help/help',
     })
   },
 

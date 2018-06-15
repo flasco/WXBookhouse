@@ -1,0 +1,27 @@
+/* pages/rank/rank.wxss */
+
+.list {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  top: 0;
+  right: 0;
+}
+
+.list-item {
+  display: -webkit-box;
+  word-break: break-all;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  -webkit-line-clamp: 2;
+  align-items: center;
+  font-size: 30rpx;
+  height: 78rpx;
+  margin: 10rpx 20rpx;
+  padding: 8rpx;
+}
+
+.splitter {
+  border-bottom: 1px solid #aaa;
+}

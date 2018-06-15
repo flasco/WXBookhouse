@@ -1,0 +1,5 @@
+{
+  "usingComponents": {
+    "QA": "/components/QA/qa"
+  }
+}

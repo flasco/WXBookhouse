@@ -8,15 +8,48 @@ page {
 .bar-container {
   flex-direction: row;
   display: flex;
-  align-items: center;
+  align-items: baseline;
+  padding: 10rpx 20rpx;
+  height: 70rpx;
+}
+
+.hintText {
+  color: #aaa;
+  font-size: 24rpx;
+  display: block;
+  text-align: center;
+  line-height: 50rpx;
+  height: 50rpx;
 }
 
 .input {
-  padding: 20rpx 25rpx;
+  padding: 0 18rpx;
+  font-size: 30rpx;
   width: 100%;
 }
 
 .iconfont {
   color: #8b8b90;
-  font-size: 40rpx;
+  font-size: 34rpx;
+}
+
+.list {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  top: 70rpx;
+  right: 0;
+}
+
+.list-item {
+  display: block;
+  font-size: 30rpx;
+  height: 78rpx;
+  margin: 10rpx 20rpx;
+  padding: 8rpx;
+  line-height: 78rpx;
+}
+
+.splitter {
+  border-bottom: 1px solid #aaa;
 }

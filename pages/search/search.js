@@ -1,15 +1,30 @@
 // pages/search/search.js
+import { search } from '../../services/book.js';
+
 Page({
 
   /**
    * 页面的初始数据
    */
   data: {
-  
+    list:[],
+    hintText:'输入后点击done即可搜索书籍',
   },
 
   search: function(e){
-    console.log(e.detail.value)
+    search(e.detail.value).then(val=>{
+      this.setData({
+        list: val,
+        hintText:`本次搜索到${val.length}条相关数据`
+      })
+    })
+  },
+
+  jmp2Det:function(e){
+    this.selectObj = this.data.list[e.currentTarget.dataset.index];
+    wx.navigateTo({
+      url: `../bookDet/bookDet`,
+    })
   },
 
   /**

@@ -1,0 +1,6 @@
+<!--pages/rank/rank.wxml-->
+<scroll-view scroll-y="true" class='list' bindscrolltolower="lower">
+  <block wx:for="{{list}}" wx:key="this*">
+    <text data-index="{{index}}" bindtap='jmp2Det' class="list-item {{index !== list.length - 1? 'splitter':''}}">[{{item.type}}] {{item.name}} - {{item.author}}\n{{item.latestChapter}}</text>
+  </block>
+</scroll-view>

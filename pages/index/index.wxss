@@ -9,6 +9,20 @@
   border-bottom: 1px solid #d5d5d5;
 }
 
+.title-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.isUpdate-item {
+  margin-left: 18rpx;
+  padding: 2rpx 12rpx;
+  background-color: red;
+  color: #fff;
+  font-size: 20rpx;
+}
+
 .item-img {
   width: 78rpx;
   height: 102rpx;
@@ -25,7 +39,8 @@
   font-size: 24rpx;
   color: #999;
 }
-.item-title{
+
+.item-title {
   font-weight: 400;
   color: #000;
   font-size: 32rpx;

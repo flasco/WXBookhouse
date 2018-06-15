@@ -15,6 +15,7 @@ Page({
     menuHide: true,
     lstLength: 100,
     currentNum: 0,
+    night: false,
   },
   flagLst: [],
   bookRecord: '',
@@ -39,22 +40,25 @@ Page({
     }
     let pages = getCurrentPages();
     let prevPage = pages[pages.length - 2];
-    let currentBook = prevPage.data.listx[options.index];
+
+    this.currentBook = prevPage.currentItem;
     wx.setNavigationBarTitle({
-      title: currentBook.bookName
+      title: this.currentBook.bookName
     });
     wx.setNavigationBarColor({
       frontColor: '#000000',
       backgroundColor: '#acc7a7',
-    })
-    let uniqueStr = `${currentBook.bookName}-${currentBook.author}-${currentBook.plantformId}`;
+    });
+    this.init();
+  },
+  init: function () {
+    let uniqueStr = `${this.currentBook.bookName}-${this.currentBook.author}-${this.currentBook.plantformId}`;
     this.flagLst[0] = `${uniqueStr}-record`; // record
     this.flagLst[1] = `${uniqueStr}-list`; // lst
     this.flagLst[2] = `${uniqueStr}-map`; // map
     this.bookRecord = wx.getStorageSync(this.flagLst[0]) || { recordChapterNum: 0, top: 0 };
     this.chapterLst = wx.getStorageSync(this.flagLst[1]) || [];
     this.chapterMap = wx.getStorageSync(this.flagLst[2]) || new Map();
-
     this.bookRecord = typeof this.bookRecord === 'string' ? JSON.parse(this.bookRecord) : this.bookRecord;
     this.chapterLst = typeof this.chapterLst === 'string' ? JSON.parse(this.chapterLst) : this.chapterLst;
     this.chapterMap = typeof this.chapterMap === 'string' ? JSON.parse(this.chapterMap) : this.chapterMap;
@@ -62,7 +66,7 @@ Page({
       wx.showLoading({
         title: '章节内容走心抓取中...',
       });
-      list(currentBook.source[currentBook.plantformId]).then(val => {
+      list(this.currentBook.source[this.currentBook.plantformId]).then(val => {
         wx.hideLoading();
         if (val.length === 0) {
           this.setData({
@@ -70,7 +74,7 @@ Page({
           })
           return;
         } else {
-          console.log(val)
+          // console.log(val)
           this.chapterLst = val;
           this.setData({
             lstLength: this.chapterLst.length,
@@ -93,8 +97,16 @@ Page({
     this.setData({
       currentNum: index,
     })
+    if (this.chapterLst[index] == null) {
+      this.setData({
+        title: '章节内容出错',
+        lines: ['\u3000\u3000章节内容获取失败.'],
+      });
+      return;
+    }
     let nurl = this.chapterLst[index].url;
-    if (this.chapterMap[nurl] === undefined || typeof this.chapterMap[nurl] === 'string') {
+    let currentItem = this.chapterMap[nurl];
+    if (currentItem == null || typeof currentItem === 'string' || currentItem.lines.length === 0) {
       wx.showLoading({
         title: '获取章节中...',
       })
@@ -126,6 +138,25 @@ Page({
         scrollTop: top
       });
     }
+    // 提前缓存下一章节
+    if (index < this.chapterLst.length - 1) {
+      this.cacheNextChapter(this.chapterLst[index + 1].url)
+    }
+  },
+  cacheNextChapter: function (nurl) {
+    if (this.chapterMap[nurl] === undefined || typeof this.chapterMap[nurl] === 'string') {
+      content(nurl).then(data => {
+        if (data !== -1) {
+          this.chapterMap[nurl] = {
+            title: data.title,
+            lines: pushIndent(data.content),
+          };
+        } else {
+          // 缓存失败
+          return;
+        }
+      });
+    }
   },
   slider2change: function (e) {
     this.getContent(e.detail.value);
@@ -142,7 +173,7 @@ Page({
       wx.showToast({
         title: '已经是最后一章',
       })
-    } else this.getContent(this.bookRecord.recordChapterNum + 1);
+    } else this.getContent(this.bookRecord.recordChapterNum + 1, 0);
   },
   clickEvent: function (e) {
     let clickX = e.detail.x;
@@ -199,17 +230,23 @@ Page({
       menuHide: true
     })
   },
-  /**
-   * 生命周期函数--监听页面初次渲染完成
-   */
-  onReady: function () {
-
+  jmp2origin: function () {
+    wx.navigateTo({
+      url: '../origin/origin',
+    });
+  },
+  switchNight: function () {
+    let flag = !this.data.night;
+    wx.setNavigationBarColor({
+      frontColor: flag ? '#ffffff' : '#000000',
+      backgroundColor: flag ? '#0c0c0c' : '#acc7a7',
+    })
+    this.setData({
+      night: flag
+    });
   },
 
-  /**
-   * 生命周期函数--监听页面卸载
-   */
-  onUnload: function () {
+  saveRecord:function(){
     this.bookRecord.top = this.top;
     wx.setStorage({
       key: this.flagLst[0],
@@ -223,5 +260,18 @@ Page({
       key: this.flagLst[2],
       data: JSON.stringify(this.chapterMap),
     });
+  },
+  /**
+   * 生命周期函数--监听页面初次渲染完成
+   */
+  onReady: function () {
+
+  },
+
+  /**
+   * 生命周期函数--监听页面卸载
+   */
+  onUnload: function () {
+    this.saveRecord();
   },
 })

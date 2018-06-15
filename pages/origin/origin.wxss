@@ -1,8 +1,5 @@
-/* pages/catalog/catalog.wxss */
+/* pages/orgin/orgin.wxss */
 
-page {
-  background-color: #d9d9d9;
-}
 
 .title {
   height: 44px;
@@ -26,4 +23,9 @@ page {
 
 .splitter {
   border-bottom: #969696 solid 1px;
+}
+
+.subtitle{
+  color: #969696;
+  font-size: 28rpx;
 }
