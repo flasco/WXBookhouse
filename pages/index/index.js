@@ -47,18 +47,16 @@ Page({
     })
   },
   clickJmp: function (e) {
-    if(this.data.listx != null){
-      wx.navigateTo({
-        url: `../read/read?index=0`,
-      });
-      let index = e.currentTarget.dataset.index;
-      let list = [...this.data.listx];
-      list[index].isUpdate = false;
-      list[index].latestRead = new Date().getTime();
-      insertionSort(list);
-      this.app.list = list;// 在onshow 的时候会自动同步
-      this.currentItem = this.app.list[0];
-    }
+    wx.navigateTo({
+      url: `../read/read?index=0`,
+    });
+    let index = e.currentTarget.dataset.index;
+    let list = [...this.data.listx];
+    list[index].isUpdate = false;
+    list[index].latestRead = new Date().getTime();
+    insertionSort(list);
+    this.app.list = list;// 在onshow 的时候会自动同步
+    this.currentItem = this.app.list[0];
   },
   onShow: function (e) {
     if (this.app == null) return;
