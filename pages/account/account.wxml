@@ -28,10 +28,10 @@
       <icon class='iconfont icon-dengpaotishi' />
       <text class='item-label'>使用帮助</text>
     </view>
-    <view class='click-item'>
+    <button class='click-item' open-type="feedback">
       <icon class='iconfont icon-yijianfankui' />
       <text class='item-label'>反馈意见</text>
-    </view>
+    </button>
     <view class='click-item' style='justify-content:space-between;'>
       <view>
         <icon class='iconfont icon-guanyu' />
