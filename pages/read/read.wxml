@@ -11,12 +11,16 @@
   </view>
 </view>
 <scroll-view scroll-y="true" scroll-top="{{scrollTop}}" bindscroll="scroll" class="scroll-view  {{night? 'night-container':'sunny-container'}}">
-  <view style='padding:0 30rpx 100rpx;min-height:100%;' bindtap='clickEvent' bindtouchstart='tchStart' bindtouchend='tchEnd'>
+  <view style='padding:0 30rpx;min-height:100%;' bindtap='clickEvent'>
     <text class="titleStyle {{night? 'night-title':'sunny-title'}}">{{title}}</text>
     <block wx:for="{{lines}}" wx:key='this*'>
       <text class="textStyle {{night? 'night-text':'sunny-text'}}">{{item}}</text>
     </block>
   </view>
+  <view class='btn-container'>
+      <button class="btn-class {{night? 'btn-night':'btn-sunny'}}" bindtap='prvChapter'>上一章</button>
+      <button class="btn-class {{night? 'btn-night':'btn-sunny'}}" bindtap='nxtChapter'>下一章</button>
+    </view>
 </scroll-view>
 <view style='height:180rpx;position:absolute;left:0;right:0;bottom:0;background-color:rgba(0,0,0,0.7);dispaly:flex;' hidden='{{menuHide}}'>
   <view style='display:flex;flex-direction:row;align-items:center;border-bottom:solid 1px #686868;height:40%;'>
@@ -33,7 +37,7 @@
       <icon class='icon-nc-test-outline-px_moon iconfont' />
       <text class='menu-item-text'>夜间</text>
     </view>
-     <view class='menu-item' bindtap='jmp2origin'>
+    <view class='menu-item' bindtap='jmp2origin'>
       <icon class='icon-origin iconfont' />
       <text class='menu-item-text'>换源</text>
     </view>

@@ -182,12 +182,6 @@ Page({
       this.setData({
         menuHide: !this.data.menuHide
       })
-    } else if (clickX < this.Quex) {
-      // console.log('左侧上一章');
-      this.prvChapter();
-    } else {
-      // console.log('右侧下一章');
-      this.nxtChapter();
     }
   },
 
@@ -203,24 +197,6 @@ Page({
   scroll: function (e, res) {
     // 容器滚动时将此时的滚动距离赋值给 this.data.scrollTop
     this.top = e.detail.scrollTop;
-  },
-  tchStart: function (e) {
-    this.startX = e.changedTouches[0].pageX;
-    this.startY = e.changedTouches[0].pageY;
-  },
-  tchEnd: function (e) {
-    let endX = e.changedTouches[0].pageX;
-    let endY = e.changedTouches[0].pageY;
-    let differX = endX - this.startX;
-    let differY = endY - this.startY;
-    if (Math.abs(differY) > 30) return;
-    if (Math.abs(differX) < 60) return;
-    if (differX > 60) {
-      this.prvChapter();
-    }
-    else if (differX < -60) {
-      this.nxtChapter();
-    }
   },
   jmp2Catalog: function (e) {
     wx.navigateTo({

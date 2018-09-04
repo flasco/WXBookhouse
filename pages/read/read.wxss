@@ -17,6 +17,31 @@
   right: 0;
 }
 
+.btn-container {
+  display: flex;
+  padding:0 30rpx;
+  padding-bottom: 100rpx;
+  margin-top: 30rpx;
+}
+
+.btn-class {
+  flex: 1;
+  margin: 0 10rpx;
+}
+
+.btn-sunny {
+  background-color: #acc7a7;
+  color: #0d2a0f;
+  border: #0d2a0f 1rpx solid;
+}
+
+.btn-night {
+  background-color: #0c0c0c;
+  color: #5b5b5b;
+  border: #5b5b5b 1rpx solid;
+}
+
+
 .titleStyle {
   color: #576457;
   font-size: 38rpx;
