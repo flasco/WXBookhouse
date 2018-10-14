@@ -84,6 +84,8 @@ Page({
           })
           this.getContent(this.bookRecord.recordChapterNum);
         }
+      }).catch(e => {
+        Toast.clear();
       });
     } else {
       this.setData({
@@ -136,7 +138,9 @@ Page({
           });
           return;
         }
-      })
+      }).catch(e => {
+        Toast.clear();
+      });
     } else {
       this.setData({
         ...this.chapterMap[nurl],

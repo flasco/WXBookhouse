@@ -1,5 +1,6 @@
 {
   "usingComponents": {
-    "van-search": "/third-party/search/index"
+    "van-search": "/third-party/search/index",
+    "van-toast": "/third-party/toast/index"
   }
 }

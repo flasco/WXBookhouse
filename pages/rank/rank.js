@@ -48,6 +48,8 @@ Page({
         this.setData({
           list,
         });
+      }).catch(e => {
+        Toast.clear();
       });
     } else {
       Toast({

@@ -8,6 +8,5 @@
       <text data-index="{{index}}" bindtap='jmp2Det' class="list-item {{index !== list.length - 1? 'splitter':''}}">{{item.bookName}} - {{item.author}}</text>
     </block>
   </scroll-view>
-
-
+  <van-toast id="van-toast" />
 </view>
