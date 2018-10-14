@@ -50,7 +50,10 @@ export function list(url) {
 }
 
 export function rnk(page) {
-  return httpGet(`${Ip}/rnklist?p=${page}`);
+  return httpGet(`${Ip}/rnklist?p=${page}`).then(val => val.map(item => {
+    item.latestChapter = item.latestChapter.length > 22 ? `${item.latestChapter.substring(0, 22)}...` : item.latestChapter
+    return item;
+  }));
 }
 
 export function search(name, author = '', pid = '') {

@@ -1,10 +1,7 @@
 <!--pages/search/search.wxml-->
 <view>
 
-  <view class='bar-container'>
-    <icon class='iconfont icon-search' />
-    <input placeholder='请输入书籍名称' class='input' bindconfirm='search' />
-  </view>
+  <van-search placeholder="请输入书籍名称" bind:search="search" />
   <scroll-view scroll-y="true" class='list'>
     <text class='hintText'>{{hintText}}</text>
     <block wx:for="{{list}}" wx:key="this*">

@@ -1,5 +1,6 @@
 // pages/rank/rank.js
 import { rnk } from '../../services/book.js';
+import Toast from '../../third-party/toast/toast';
 Page({
 
   /**
@@ -9,6 +10,7 @@ Page({
     list: []
   },
   page: 1,
+  isFetching: false,
 
   /**
    * 生命周期函数--监听页面加载
@@ -31,16 +33,28 @@ Page({
   },
 
   lower:function(){
-    wx.showLoading({
-      title: '加载中',
+    Toast.loading({
+      mask: true,
+      message: '加载中...',
+      duration: 0
     });
-    rnk(this.page).then(val => {
-      wx.hideLoading();
-      this.page++;
-      this.setData({
-        list: [...this.data.list, ...val],
+    if (!this.isFetching) {
+      this.isFetching = true;
+      rnk(this.page).then(val => {
+        this.isFetching = false;
+        Toast.clear();
+        this.page++;
+        const list = this.data.list.concat(val);
+        this.setData({
+          list,
+        });
       });
-    });
+    } else {
+      Toast({
+        message: '正在加载中，请不要频繁操作。',
+        position: 'bottom',
+      });
+    }
   },
 
   /**

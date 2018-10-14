@@ -12,7 +12,8 @@ Page({
   },
 
   search: function(e){
-    search(e.detail.value).then(val=>{
+    console.log(e.detail)
+    search(e.detail).then(val=>{
       this.setData({
         list: val,
         hintText:`本次搜索到${val.length}条相关数据`

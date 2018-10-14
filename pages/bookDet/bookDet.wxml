@@ -17,5 +17,5 @@
     <text style='font-size:30rpx;'>{{currentItem.desc}}</text>
   </view>
   <text style='display:block;text-align:center;font-size:30rpx;margin-top:40rpx;'>未完待续...</text>
-
+  <van-toast id="van-toast" />
 </view>

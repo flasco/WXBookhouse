@@ -1,6 +1,7 @@
 // pages/read.js
 import { list, content } from '../../services/book.js';
 import { pushIndent } from '../../utils/util.js';
+import Toast from '../../third-party/toast/toast';
 
 Page({
 
@@ -63,11 +64,13 @@ Page({
     this.chapterLst = typeof this.chapterLst === 'string' ? JSON.parse(this.chapterLst) : this.chapterLst;
     this.chapterMap = typeof this.chapterMap === 'string' ? JSON.parse(this.chapterMap) : this.chapterMap;
     if (this.chapterLst.length === 0) {
-      wx.showLoading({
-        title: '章节内容走心抓取中...',
+      Toast.loading({
+        mask: true,
+        message: '章节内容走心抓取中...',
+        duration: 0
       });
       list(this.currentBook.source[this.currentBook.plantformId]).then(val => {
-        wx.hideLoading();
+        Toast.clear();
         if (val.length === 0) {
           this.setData({
             lines: ['\u3000\u3000章节抓取失败']
@@ -107,12 +110,14 @@ Page({
     let nurl = this.chapterLst[index].url;
     let currentItem = this.chapterMap[nurl];
     if (currentItem == null || typeof currentItem === 'string' || currentItem.lines.length === 0) {
-      wx.showLoading({
-        title: '获取章节中...',
-      })
+      Toast.loading({
+        mask: true,
+        message: '获取章节中...',
+        duration: 0
+      });
       this.loading = true;
       content(nurl).then(data => {
-        wx.hideLoading();
+        Toast.clear();
         this.loading = false;
         if (data !== -1) {
           this.chapterMap[nurl] = {
@@ -163,15 +168,17 @@ Page({
   },
   prvChapter: function () {
     if (this.bookRecord.recordChapterNum === 0) {
-      wx.showToast({
-        title: '已经是第一章',
-      });
+      Toast({
+        message: '已经是第一章啦',
+        position: 'bottom',
+      })
     } else this.getContent(this.bookRecord.recordChapterNum - 1);
   },
   nxtChapter: function () {
     if (this.bookRecord.recordChapterNum === this.chapterLst.length - 1) {
-      wx.showToast({
-        title: '已经是最后一章',
+      Toast({
+        message: '已经是最后一章啦',
+        position: 'bottom',
       })
     } else this.getContent(this.bookRecord.recordChapterNum + 1, 0);
   },

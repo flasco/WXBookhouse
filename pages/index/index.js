@@ -1,9 +1,11 @@
 //index.js
 //获取应用实例
 const app = getApp();
-import { content, latestLst, list } from '../../services/book.js';
 import { refreshChapter } from '../../utils/refreshBook.js';
 import { insertionSort } from '../../utils/util.js';
+
+import Toast from '../../third-party/toast/toast';
+
 Page({
   data: {
     listx: [{
@@ -40,8 +42,9 @@ Page({
           listx: val.list,
         })
       }
-      wx.showToast({
-        title: '刷新完成',
+      Toast({
+        message: '刷新完成',
+        position: 'bottom',
       });
       wx.stopPullDownRefresh(); //停止下拉刷新
     })
@@ -52,7 +55,7 @@ Page({
         url: `../read/read?index=0`,
       });
       let index = e.currentTarget.dataset.index;
-      let list = [...this.data.listx];
+      let list = this.data.listx.concat();
       list[index].isUpdate = false;
       list[index].latestRead = new Date().getTime();
       insertionSort(list);

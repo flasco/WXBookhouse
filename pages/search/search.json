@@ -1,1 +1,5 @@
-{}
+{
+  "usingComponents": {
+    "van-search": "/third-party/search/index"
+  }
+}

@@ -40,11 +40,8 @@ page {
 }
 
 .click-item {
-  padding: 20rpx;
-  display: flex;
-  flex-direction: row;
+  padding: 11rpx 20rpx 20rpx;
   border-bottom: 1px solid #e3e4e6;
-  align-items: baseline;
   background-color: #fff;
 }
 
@@ -52,5 +49,6 @@ page {
   color: #393939;
   font-size: 30rpx;
   margin-left: 10rpx;
+  line-height:26rpx;
 }
 

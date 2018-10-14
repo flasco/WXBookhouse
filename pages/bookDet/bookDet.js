@@ -1,6 +1,8 @@
 // pages/bookDet/bookDet.js
-import { list, search } from '../../services/book.js';
+import { search } from '../../services/book.js';
 import { refreshSingleChapter } from '../../utils/refreshBook.js';
+
+import Toast from '../../third-party/toast/toast';
 
 Page({
 
@@ -29,8 +31,9 @@ Page({
     if (options.title != null) {
       search(options.title, options.author).then(val => {
         if (val === -1) {
-          wx.showToast({
-            title: '抓取失败',
+          Toast({
+            message: '抓取失败',
+            position: 'bottom',
           });
           return;
         } else {

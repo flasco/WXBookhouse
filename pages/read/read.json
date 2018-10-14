@@ -1,3 +1,6 @@
 {
-  "disableScroll": true
+  "disableScroll": true,
+  "usingComponents": {
+    "van-toast": "/third-party/toast/index"
+  }
 }

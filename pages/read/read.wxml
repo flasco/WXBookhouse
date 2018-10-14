@@ -46,4 +46,5 @@
       <text class='menu-item-text'>设置</text>
     </view>
   </view>
+  <van-toast id="van-toast" />
 </view>

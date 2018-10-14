@@ -32,8 +32,8 @@
       <icon class='iconfont icon-yijianfankui' />
       <text class='item-label'>反馈意见</text>
     </view>
-    <view class='click-item' style='justify-content:space-between;'>
-      <view>
+    <view class='click-item' style='display: flex; justify-content:space-between;align-items:baseline;'>
+      <view style='display: inline-block;'>
         <icon class='iconfont icon-guanyu' />
         <text class='item-label'>当前版本</text>
       </view>
