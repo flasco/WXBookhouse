@@ -45,7 +45,6 @@ Page({
               content: '本书没有记录！如果迫切需要加入本书，请及时反馈给开发人员~',
             });
           } else {
-            this.book.source[1] && this.book.source[1].indexOf('m.xs') === -1 && (this.book.source[1] = this.book.source[1].replace(/www/, 'm'));
             this.book.img = this.book.img.replace('www.xs.la', 'www.xinxs.la');
             this.setData({
               currentItem: this.book,
