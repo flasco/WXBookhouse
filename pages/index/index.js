@@ -4,7 +4,7 @@ const app = getApp();
 import { refreshChapter } from '../../utils/refreshBook.js';
 import { insertionSort } from '../../utils/util.js';
 
-import Toast from '../../third-party/toast/toast';
+import Toast from '../../miniprogram_npm/vant-weapp/toast/toast';
 
 Page({
   data: {
@@ -29,7 +29,11 @@ Page({
     let x = wx.getStorageSync('bookLst');
     if (x !== '') {
       this.app = getApp();
-      this.app.list = JSON.parse(x);
+      const list = JSON.parse(x);
+      list.forEach(item => {
+        item.img = item.img.replace('www.xs.la', 'www.xinxs.la')
+      })
+      this.app.list = list;
     }
   },
   // 下拉刷新  

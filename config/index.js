@@ -1,6 +1,6 @@
-export const serverIp = [
-  'https://flasco.leanapp.cn',
-  'https://flascospare.leanapp.cn',
+export const serverIps = [
+  'https://tasselstorage1.cn-e1.leanapp.cn',
+  'https://tasselstorage2.cn-e1.leanapp.cn',
 ]
 
 export const sites = {
@@ -10,5 +10,5 @@ export const sites = {
   '4':'97ub.cc',
 }
 
-export const version = '0.2.0';
-export const versionLog = `本次 ${version} 版本修复了排行获取异常的bug, 优化了一波UI，祝您用的开心~`;
+export const version = '0.4.0-alpha';
+export const versionLog = `本次 ${version} 版本更新了一波书源，祝您用的开心`;

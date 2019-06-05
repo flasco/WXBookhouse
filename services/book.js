@@ -1,61 +1,68 @@
 import { httpGet, httpPost } from '../utils/request.js';
-import { serverIp } from '../config/index.js';
-const StorageIp = 'https://testdb.leanapp.cn';
-const currenthours = new Date().getHours();
-let Ip = currenthours >= 9 && currenthours < 22 ? serverIp[0] : serverIp[1];
-console.log(Ip)
-export function changeServer() {
-  let msg = '当前无需切换';
-  if (Ip !== serverIp[0]) {
-    Ip = serverIp[0];
-    msg = '服务器已切换至主线';
-  } else if (Ip !== serverIp[1]) {
-    Ip = serverIp[1];
-    msg = '服务器已切换至备用';
-  }
-  console.log(msg);
-}
+import { spliceLine } from '../utils/util';
+import { serverIps } from '../config/index.js';
+const StorageIp = 'https://koapi.leanapp.cn';
+
+const getIp = (() => {
+  let prevIp;
+  let lockTime = Date.now();
+
+  return () => {
+    const current = Date.now();
+    if (prevIp == null || current - lockTime > 3600 * 1000) {
+      const currenthours = new Date().getHours();
+      const curPoi = currenthours >= 9 && currenthours < 22 ? 0 : 1;
+      prevIp = serverIps[curPoi];
+      lockTime = current;
+    }
+    // return 'http://localhost:3001';
+    return prevIp;
+  };
+})();
 
 export function content(url) {
-  return httpGet(`${Ip}/analysis?action=2&url=${url}`);
+  return httpGet(`${getIp()}/v2/analysis?action=2&url=${url}`);
 }
 
 export function latest(url) {
-  return httpGet(`${Ip}/analysis?action=3&url=${url}`);
+  return httpGet(`${getIp()}/v2/analysis?action=3&url=${url}`);
 }
 
 export function latestLst(list) {
-  return httpPost(`${Ip}/analysis`, list);
+  return httpPost(`${getIp()}/v2/analysis`, list);
 }
 
 /**
  * 输入url 返回书籍列表
- * @param {String} url 
+ * @param {String} url
  */
 export function list(url) {
-  url.indexOf('m.xs') !== -1 && (url = url + 'all.html');
   return new Promise((resolve, reject) => {
-    httpGet(`${Ip}/analysis?action=1&url=${url}`).then(data => {
-      let n = [], i = 0;
-      while (i < data.length) {
-        n.push({
-          url: data[i].url,
-          title: (data[i].title.length > 25 ? data[i].title.substr(0, 18) + '...' : data[i].title)
-        });
-        i++;
-      };
-      resolve(n);
-    }).catch(err => resolve([]));
-  })
+    httpGet(`${getIp()}/v2/analysis?action=1&url=${url}`)
+      .then(data => {
+        if (data !== -1) {
+          const n = data.map(item => {
+            return {
+              url: item.url,
+              title: spliceLine(item.title, 18)
+            };
+          });
+          resolve(n);
+        }
+      })
+      .catch(err => resolve([]));
+  });
 }
 
 export function rnk(page) {
-  return httpGet(`${Ip}/rnklist?p=${page}`).then(val => val.map(item => {
-    item.latestChapter = item.latestChapter.length > 22 ? `${item.latestChapter.substring(0, 22)}...` : item.latestChapter
-    return item;
-  }));
+  return httpGet(`${getIp()}/v2/rnklist?p=${page}`).then(val =>
+    val.map(item => {
+      item.latestChapter = spliceLine(item.latestChapter, 22);
+      return item;
+    })
+  );
 }
 
 export function search(name, author = '', pid = '') {
-  return httpGet(`${StorageIp}/sear?name=${name}&aut=${author}&pid=${pid}`);
+  return httpGet(`${StorageIp}/v2/sear?name=${name}&aut=${author}&pid=${pid}`);
 }

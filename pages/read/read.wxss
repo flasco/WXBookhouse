@@ -84,19 +84,19 @@
   bottom: 0;
   z-index: 99;
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
 }
 
-.tip-edge {
-  flex: 1;
+.tip-next {
+  flex: 3;
   display: flex;
   background: rgba(60, 60, 60, 0.4);
   align-items: center;
   justify-content: center;
 }
 
-.tip-center {
-  flex: 2;
+.tip-top {
+  flex: 4;
   display: flex;
   background: rgba(0, 0, 0, 0.4);
   align-items: center;

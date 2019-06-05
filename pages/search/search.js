@@ -1,6 +1,6 @@
 // pages/search/search.js
 import { search } from '../../services/book.js';
-import Toast from '../../third-party/toast/toast';
+import Toast from '../../miniprogram_npm/vant-weapp/toast/toast';
 
 Page({
 

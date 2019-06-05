@@ -1,5 +1,5 @@
 {
   "usingComponents": {
-    "van-toast": "/third-party/toast/index"
+    "van-toast": "/miniprogram_npm/vant-weapp/toast/index"
   }
 }

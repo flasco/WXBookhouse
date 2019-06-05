@@ -1,2 +1,4 @@
 project.config.json
 .DS_Store
+node_modules/
+miniprogram_npm/

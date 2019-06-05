@@ -1,16 +1,13 @@
 <!--pages/read.wxml-->
-<view wx:if='{{isFirst}}' bindtap='notFirst' class='tip-container'>
-  <view class='tip-edge'>
-    <text class='tip-text'>上一章</text>
-  </view>
-  <view class='tip-center'>
+<view wx:if='{{isNewFirst}}' bindtap='notFirst' class='tip-container'>
+  <view class='tip-top'>
     <text class='tip-text'>呼出菜单</text>
   </view>
-  <view class='tip-edge'>
+  <view class='tip-next'>
     <text class='tip-text'>下一章</text>
   </view>
 </view>
-<scroll-view scroll-y="true" scroll-top="{{scrollTop}}" bindscroll="scroll" class="scroll-view  {{night? 'night-container':'sunny-container'}}">
+<scroll-view scroll-y="true" id="read-window" scroll-top="{{scrollTop}}" bindscroll="scroll" class="scroll-view  {{night? 'night-container':'sunny-container'}}">
   <view style='padding:0 30rpx;min-height:100%;' bindtap='clickEvent'>
     <text class="titleStyle {{night? 'night-title':'sunny-title'}}">{{title}}</text>
     <block wx:for="{{lines}}" wx:key='this*'>
@@ -22,6 +19,7 @@
       <button class="btn-class {{night? 'btn-night':'btn-sunny'}}" bindtap='nxtChapter'>下一章</button>
     </view>
 </scroll-view>
+<van-toast id="van-toast" />
 <view style='height:180rpx;position:absolute;left:0;right:0;bottom:0;background-color:rgba(0,0,0,0.7);dispaly:flex;' hidden='{{menuHide}}'>
   <view style='display:flex;flex-direction:row;align-items:center;border-bottom:solid 1px #686868;height:40%;'>
     <text class='menu-top-text' bindtap='prvChapter'>上一章</text>
@@ -46,5 +44,4 @@
       <text class='menu-item-text'>设置</text>
     </view>
   </view>
-  <van-toast id="van-toast" />
 </view>

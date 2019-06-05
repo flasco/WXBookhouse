@@ -58,3 +58,7 @@ export const pushIndent = content => {
   trim(newContent) !== '' && lines.push(`\u3000\u3000${trim(newContent)}\n`);
   return lines;
 }
+
+export function spliceLine(str, count) {
+  return str.length > count ? str.substr(0, count) + '...' : str;
+}

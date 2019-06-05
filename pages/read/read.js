@@ -1,7 +1,7 @@
 // pages/read.js
 import { list, content } from '../../services/book.js';
 import { pushIndent } from '../../utils/util.js';
-import Toast from '../../third-party/toast/toast';
+import Toast from '../../miniprogram_npm/vant-weapp/toast/toast';
 
 Page({
 
@@ -11,7 +11,7 @@ Page({
   data: {
     lines: [],
     title: '',
-    isFirst: false,
+    isNewFirst: false,
     scrollTop: 0,
     menuHide: true,
     lstLength: 100,
@@ -22,7 +22,6 @@ Page({
   bookRecord: '',
   chapterMap: '',
   chapterLst: '',
-  screenWidth: 0,
   loading: false,
 
   /**
@@ -30,15 +29,25 @@ Page({
    */
   onLoad: function (options) {
     let app = getApp();
-    this.screenWidth = app.screenWidth;
-    this.Quex = this.screenWidth / 4;
-    this.Quey = 3 * this.Quex;
-    let isFirst = wx.getStorageSync('isFirst');
-    if (typeof isFirst !== 'boolean') {
+    let query = wx.createSelectorQuery();
+    query.select('#read-window').boundingClientRect()
+    query.exec((res) => {
+      //res就是 所有标签为mjltest的元素的信息 的数组
+      // console.log(res);
+      //取高度
+      // console.log(res[0].height);
+      this.watchHeight = res[0].height;
+      const pick = this.watchHeight / 7;
+      this.Quex = pick * 4;
+    })
+    
+    let isNewFirst = wx.getStorageSync('isNewFirst');
+    if (typeof isNewFirst !== 'boolean') {
       this.setData({
-        isFirst: true
+        isNewFirst: true
       })
     }
+
     let pages = getCurrentPages();
     let prevPage = pages[pages.length - 2];
 
@@ -52,7 +61,7 @@ Page({
     });
     this.init();
   },
-  init: function () {
+  init: function (needToast = true) {
     let uniqueStr = `${this.currentBook.bookName}-${this.currentBook.author}-${this.currentBook.plantformId}`;
     this.flagLst[0] = `${uniqueStr}-record`; // record
     this.flagLst[1] = `${uniqueStr}-list`; // lst
@@ -64,13 +73,14 @@ Page({
     this.chapterLst = typeof this.chapterLst === 'string' ? JSON.parse(this.chapterLst) : this.chapterLst;
     this.chapterMap = typeof this.chapterMap === 'string' ? JSON.parse(this.chapterMap) : this.chapterMap;
     if (this.chapterLst.length === 0) {
-      Toast.loading({
+      needToast && Toast.loading({
         mask: true,
         message: '章节内容走心抓取中...',
         duration: 0
       });
+
       list(this.currentBook.source[this.currentBook.plantformId]).then(val => {
-        Toast.clear();
+        needToast && Toast.clear();
         if (val.length === 0) {
           this.setData({
             lines: ['\u3000\u3000章节抓取失败']
@@ -85,7 +95,7 @@ Page({
           this.getContent(this.bookRecord.recordChapterNum);
         }
       }).catch(e => {
-        Toast.clear();
+        needToast && Toast.clear();
       });
     } else {
       this.setData({
@@ -95,7 +105,7 @@ Page({
     }
   },
 
-  getContent: function (index, top = 0) {
+  getContent: function (index, top = 0, slient = true) {
     if (this.loading) return;
     index = (index <= this.chapterLst.length - 1 && index > -1) ? index : 0; //修复index的越界问题
     this.bookRecord.recordChapterNum = index;
@@ -112,14 +122,12 @@ Page({
     let nurl = this.chapterLst[index].url;
     let currentItem = this.chapterMap[nurl];
     if (currentItem == null || typeof currentItem === 'string' || currentItem.lines.length === 0) {
-      Toast.loading({
-        mask: true,
-        message: '获取章节中...',
-        duration: 0
-      });
+      wx.showLoading({
+        title: '获取章节中...',
+      })
       this.loading = true;
       content(nurl).then(data => {
-        Toast.clear();
+        wx.hideLoading();
         this.loading = false;
         if (data !== -1) {
           this.chapterMap[nurl] = {
@@ -187,21 +195,33 @@ Page({
     } else this.getContent(this.bookRecord.recordChapterNum + 1, 0);
   },
   clickEvent: function (e) {
-    let clickX = e.detail.x;
-    if (clickX > this.Quex && clickX < this.Quey) {
-      // console.log('中心处');
+    let clickY = e.detail.y;
+    // console.log(clickY)
+    if (!this.data.menuHide) {
       this.setData({
         menuHide: !this.data.menuHide
       })
+    } else {
+      if (clickY < this.Quex) {
+        // console.log('中心处');
+        this.setData({
+          menuHide: !this.data.menuHide
+        })
+      } else {
+        const topx = this.top;
+        this.setData({
+          scrollTop: topx + this.watchHeight - 70
+        });
+      }
     }
   },
 
   notFirst: function (e) {
     this.setData({
-      isFirst: false,
+      isNewFirst: false,
     });
     wx.setStorage({
-      key: 'isFirst',
+      key: 'isNewFirst',
       data: false,
     })
   },

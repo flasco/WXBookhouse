@@ -2,7 +2,7 @@
 import { search } from '../../services/book.js';
 import { refreshSingleChapter } from '../../utils/refreshBook.js';
 
-import Toast from '../../third-party/toast/toast';
+import Toast from '../../miniprogram_npm/vant-weapp/toast/toast';
 
 Page({
 
@@ -46,6 +46,7 @@ Page({
             });
           } else {
             this.book.source[1] && this.book.source[1].indexOf('m.xs') === -1 && (this.book.source[1] = this.book.source[1].replace(/www/, 'm'));
+            this.book.img = this.book.img.replace('www.xs.la', 'www.xinxs.la');
             this.setData({
               currentItem: this.book,
               exist: this.isExist(this.book, this.app.list)
@@ -55,6 +56,7 @@ Page({
       });
     } else {
       let prevPage = pages[pages.length - 2];
+      prevPage.selectObj.img = prevPage.selectObj.img.replace('www.xs.la', 'www.xinxs.la')
       this.setData({
         currentItem: prevPage.selectObj,
         exist: this.isExist(prevPage.selectObj, this.app.list)

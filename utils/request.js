@@ -3,7 +3,8 @@ export const httpGet = (url, callback) => {
     wx.request({
       url,
       success: function (res) {
-        resolve(res.data);
+        if (res.data.success) resolve(res.data.data);
+        reject(res.data.msg);
       },
       fail: function (err) {
         wx.showToast({
@@ -25,7 +26,8 @@ export const httpPost = (url, payload, callback) => {
         'content-type': 'application/json' // payload为object
       },
       success: function (res) {
-        resolve(res.data);
+        if (res.data.success) resolve(res.data.data);
+        reject(res.data.msg);
       },
       fail: function (err) {
         wx.showToast({

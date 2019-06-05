@@ -2,6 +2,6 @@
   "enablePullDownRefresh":true,
   "backgroundColor": "#e6e6e6",
   "usingComponents": {
-    "van-toast": "/third-party/toast/index"
+    "van-toast": "/miniprogram_npm/vant-weapp/toast/index"
   }
 }

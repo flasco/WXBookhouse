@@ -9,6 +9,7 @@ export function refreshChapter(booklist) {
     });
     latestLst(task).then(res => {
       let newList = booklist.concat();
+      // console.log(res);
       let needUpdate = res.some((item, index) => {
         if (item !== '-1') {
           let curListItem = newList[index];

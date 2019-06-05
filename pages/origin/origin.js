@@ -49,7 +49,7 @@ Page({
     let pages = getCurrentPages();
     let prevPage = pages[pages.length - 2];
     prevPage.saveRecord();
-    prevPage.init();
+    prevPage.init(false);
     wx.navigateBack({
       delta: 1
     });

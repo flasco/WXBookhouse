@@ -22,6 +22,9 @@ App({
     wx.getSystemInfo({
       success: (res) => {
         this.screenWidth = res.screenWidth;
+        this.screenHeight = res.screenHeight;
+        this.windowHeight = res.windowHeight;
+        this.barHeight = res.statusBarHeight * res.pixelRatio;
       },
     })
 
