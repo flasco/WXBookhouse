@@ -138,6 +138,7 @@ Page({
             ...this.chapterMap[nurl],
             scrollTop: 0
           });
+          this.top = 0;
 
         } else {
           this.setData({
@@ -154,6 +155,7 @@ Page({
         ...this.chapterMap[nurl],
         scrollTop: top
       });
+      this.top = top;
     }
     // 提前缓存下一章节
     if (index < this.chapterLst.length - 1) {
@@ -196,7 +198,6 @@ Page({
   },
   clickEvent: function (e) {
     let clickY = e.detail.y;
-    // console.log(clickY)
     if (!this.data.menuHide) {
       this.setData({
         menuHide: !this.data.menuHide
